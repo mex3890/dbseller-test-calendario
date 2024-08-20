@@ -1,0 +1,18 @@
+section.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding: 50px 20px 20px 20px;
+}
+
+section.form > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.29);
+    padding-bottom: 10px;
+}
+
+section.form > div > h1 {
+}
