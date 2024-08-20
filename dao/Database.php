@@ -2,6 +2,7 @@
 
 namespace DAO;
 
+use Application\Helpers\Response;
 use DAO\Database\Exceptions\InvalidIdOnTryDelete;
 use http\Exception\InvalidArgumentException;
 use PDO;
@@ -210,13 +211,15 @@ class Database
             throw new InvalidArgumentException('Parameters cannot be empty on update.');
         }
 
-        $query = 'UPDATE area SET ';
+        $query = 'UPDATE ' . static::TABLE . ' SET ';
 
         foreach ($parameters as $key => $value) {
-            $query .= "$key = ? ";
+            $query .= "$key = ?,";
         }
 
-        if ($pdoInstance = $this->db->prepare("$query WHERE id = ?")) {
+        $query = substr($query, 0, -1);
+
+        if ($pdoInstance = $this->db->prepare("$query WHERE " . static::TABLE . '.id = ?')) {
             return $pdoInstance->execute(array_merge(array_values($parameters), [$id]));
         }
 

@@ -14,7 +14,7 @@ class AgendaService
             ->order('prazo_acordado')
             ->order('gut', 'desc')
             ->order('id')
-            ->filtrarPorUrgencia([0, 1, 2, 3, 4], ['*', '(coalesce(gravidade, 1) * coalesce(urgencia, 1) * coalesce(tendencia, 1)) as gut']);
+            ->filtrarPorUrgencia([0, 1, 2, 3, 4, 5], ['*', '(coalesce(gravidade, 1) * coalesce(urgencia, 1) * coalesce(tendencia, 1)) as gut']);
 
         $melhorias = [];
 
@@ -29,7 +29,7 @@ class AgendaService
 
             $mes_entrega = $melhoriaAgendada->prazo_acordado ? (int)$melhoriaAgendada->prazo_acordado->format('m') : 0;
 
-            $melhorias[$melhoriaAgendada->area][$mes_entrega][$melhoriaAgendada->urgencia][] = $melhoriaAgendada;
+            $melhorias[$melhoriaAgendada->area][$mes_entrega][] = $melhoriaAgendada;
         }
 
         return $melhorias;

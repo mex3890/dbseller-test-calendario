@@ -5,6 +5,8 @@ import ModalMelhoria from "./ModalMelhoria.js";
 import AreaDelete from "./AreaDelete.js";
 import AreaUpdate from "./AreaUpdate.js";
 import MelhoriaDelete from "./MelhoriaDelete.js";
+import MelhoriaAttach from "./MelhoriaAttach.js";
+import MelhoriaUpdate from "./MelhoriaUpdate.js";
 
 window.onload = () => {
     if (Url.current().includes('?path=areas/criar')) {
@@ -19,6 +21,14 @@ window.onload = () => {
         new AreaDelete();
         new ModalMelhoria;
         new MelhoriaDelete()
+    }
+
+    if (Url.current().includes('?path=melhorias/anexar')) {
+        new MelhoriaAttach();
+    }
+
+    if (Url.current().includes('?path=melhorias/editar')) {
+        new MelhoriaUpdate();
     }
 
     if (location.href.includes('notification-message')) {
