@@ -5,16 +5,39 @@ body > #notification {
     position: fixed;
     top: calc(var(--header-height) + var(--main-margin-top));
     right: 10px;
-    background: #ff9898;
-    border: 1px solid red;
     border-radius: 5px;
     transition: all .3s ease;
+    z-index: 10000;
 }
 
-body > #notification > p {
+body > #notification.error {
+    background: #ff9898;
+    border: 1px solid red;
+}
+
+body > #notification.success {
+    background: #4caf50;
+}
+
+body > #notification > div {
+    display: flex;
+    align-items: center;
     padding: 5px 20px;
+    gap: 10px;
+}
+
+body > #notification > div > p {
     margin: 0;
-    color: #00000094;
+    color: rgb(255, 255, 255);
+}
+
+body > #notification > div > button {
+    padding: 0 10px;
+    color: white;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    margin-right: -10px;
 }
 
 @keyframes progressBarAnimation {
@@ -30,9 +53,9 @@ body > #notification > hr {
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 3px;
+    height: 5px;
     align-self: start;
-    background-color: #0000003b;
+    background-color: #000000;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -46,4 +69,8 @@ body > #notification.active {
 
 body > #notification.active > hr {
     animation: progressBarAnimation 10s;
+}
+
+body > #notification.active.fast > hr {
+    animation: progressBarAnimation 3s;
 }

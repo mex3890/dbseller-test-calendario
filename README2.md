@@ -35,8 +35,8 @@ inválidos.
 
 ## 4 - Implementar o Cadastro de Áreas
 
-Foi realizado o CRUD para áreas, a parte mais complicada foi me adequar ao fato de não ter um tipo de roteamento, o que 
-deixa bem mais difícil ter uma navegação mais fluida.
+Foi realizado o CRUD para áreas, optei por deixar o botão de delete e de editar diretamente na tabela a esquerda, na 
+coluna "actions". Realizei todas as operações com JS utilizando o backend como Api. 
 
 ## 5 - Implementar o Cadastro de Tarefas
 

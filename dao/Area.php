@@ -10,7 +10,7 @@ class Area extends Database
     const TABLE = 'area';
     protected static $oInstance;
 
-    public function comContagemMelhorias($ids = null, $descricoes = null)
+    public function comContagemMelhorias($ids = null, $descricoes = null, $start = null, $finish = null)
     {
         $query = 'select DISTINCT area.id, area.descricao, count(melhorias.area) as "melhorias" from area 
                     left join melhorias on area.id = melhorias.area';

@@ -65,7 +65,7 @@ class Database
     {
         $fields = $this->prepareFields($fields);
 
-        $dbst = $this->db->prepare(" SELECT $fields FROM " . static::TABLE . " WHERE descricao ILIKE :descricao ");
+        $dbst = $this->db->prepare(" SELECT $fields FROM " . static::TABLE . " WHERE descricao = :descricao ");
         $dbst->bindValue(':descricao', $descricao, \PDO::PARAM_STR);
 
         return $this->execute($dbst);
@@ -218,6 +218,23 @@ class Database
 
         if ($pdoInstance = $this->db->prepare("$query WHERE id = ?")) {
             return $pdoInstance->execute(array_merge(array_values($parameters), [$id]));
+        }
+
+        return false;
+    }
+
+    public function create(array $parameters = [])
+    {
+        $query = "INSERT INTO " . static::TABLE . '(' . implode(',', array_keys($parameters)) . ') VALUES (';
+
+        $count = count($parameters);
+
+        foreach (array_values($parameters) as $index => $value) {
+            $query .= $index === $count - 1 ? '?)' : '?,';
+        }
+
+        if ($pdoInstance = $this->db->prepare($query)) {
+            return $pdoInstance->execute(array_values($parameters)) ? $this->db->lastInsertId() : false;
         }
 
         return false;

@@ -1,29 +1,49 @@
 <?php
 
+use Application\Helpers\Response;
+use Application\Helpers\Str;
 use DAO\Area;
 
-$descricao = preg_replace('/[^a-zA-Z0-9]*/', '', $_POST['descricao']);
-$area = preg_replace('/\D/', '', $_POST['area']);
-
-if (empty($areas = Area::getInstance()->comContagemMelhorias($area, $descricao))) {
-    $error_bag = ['code' => 404, 'message' => 'Página não encontrada.'];
-    require_once __DIR__ . '/../error.php';
-    exit();
+if (empty($description = $_POST['descricao'])) {
+    Response::fail('Erro de validação.', [
+        'errors' => [
+            'descricao' => 'A descrição é obrigatória.'
+        ]
+    ]);
 }
 
-foreach ($areas as $singleArea) {
-    if ($singleArea->id !== (int)$area) {
-        require_once __DIR__ . '/../agenda.php';
-        exit();
-    } else {
-        if ($areas[0]->melhorias > 0) {
-            $error_bag = ['code' => 401, 'message' => 'Atualização não permitida.'];
-            require_once __DIR__ . '/../error.php';
-            exit();
+if (empty($area = $_POST['area'])) {
+    Response::fail('Erro de validação', [
+        'errors' => [
+            'area' => 'A área é obrigatória.'
+        ]
+    ]);
+}
+
+if (Str::hasSpecialCharacter($description)) {
+    Response::fail('Erro de validação.', [
+        'errors' => [
+            'descricao' => 'A descrição não pode ter caracteres especiais.'
+        ]
+    ]);
+}
+
+if (!empty($searchArea = Area::getInstance()->filtrarPorDescricao($description))) {
+    if (!is_array($searchArea)) {
+        $searchArea = [$searchArea->id];
+    }
+
+    foreach ($searchArea as $singleArea) {
+        if ($singleArea !== (int)$area) {
+            Response::fail('Erro de validação.', [
+                'errors' => ['descricao' => 'Uma área com esta descrição já existe.'],
+            ]);
         }
     }
 }
 
-Area::getInstance()->updateById($area, ['descricao' => $descricao]);
+if (Area::getInstance()->updateById($area, ['descricao' => $description])) {
+    Response::success('Área atualizada com sucesso!');
+}
 
-require_once('views/inicio.php');
+Response::fail('Erro interno ao criar área.', [], 500);

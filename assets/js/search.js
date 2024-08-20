@@ -48,10 +48,7 @@ document.querySelector('#btn_buscar').addEventListener('click', () => {
     }
 
     query += `&meses=${mesInicio}`;
-
-    if (mesFinal !== null) {
-        query += `-${mesFinal}`;
-    }
+    query += mesFinal !== null ? `-${mesFinal}` : '-12';
 
     location.href = query;
 })

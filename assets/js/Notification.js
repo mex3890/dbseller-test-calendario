@@ -6,6 +6,20 @@ export default class Notification {
 
         return this;
     }
+
+    overwrite() {
+        window.displayng_notification = false;
+
+        if (!window.hasOwnProperty('notificationElement')) {
+            window.notificationElement = document.getElementById('notification');
+        }
+
+        window.notificationElement.classList.remove('info', 'active', 'error', 'active', 'fast');
+        window.notificationElement.getElementsByTagName('p')[0].innerText = this.message;
+
+        return this;
+    }
+
     static success(message, duration = 9500) {
         return new Notification(message, 'success', duration);
     }
@@ -32,8 +46,12 @@ export default class Notification {
         window.notificationElement.getElementsByTagName('p')[0].innerText = this.message;
         window.notificationElement.classList.add(this.type, 'active');
 
+        if (this.duration <= 3000) {
+            window.notificationElement.classList.add('fast');
+        }
+
         setTimeout(() => {
-            window.notificationElement.classList.remove('active', this.type);
+            window.notificationElement.classList.remove('active', this.type, 'fast');
             window.displayng_notification = false;
         }, this.duration);
     }

@@ -1,6 +1,14 @@
+<?php
+if (empty($_GET['area'])) {
+    $error_bag = ['code' => 404, 'message' => 'Página não encontrada.'];
+    require_once(__DIR__ . '/../error.php');
+    exit();
+}
+?>
+
 <section class="form">
     <nav class="table-header-index">
-        <h1>Criar Área</h1>
+        <h1>Criar Melhoria</h1>
         <a class="btn btn-secondary mt-3 px-5" href="?path=agenda">Voltar</a>
     </nav>
     <form id="create_area_form">
