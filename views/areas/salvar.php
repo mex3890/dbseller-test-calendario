@@ -32,4 +32,6 @@ if (Area::getInstance()->create(['descricao' => $description])) {
     Response::success('Área criada com sucesso!', [], 201);
 }
 
+error_log('Fail on try create melhoria, ' . json_encode(['description' => $description]));
+
 Response::fail('Erro interno ao criar área.', [], 500);

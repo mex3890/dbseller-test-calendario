@@ -2,6 +2,7 @@
 
 namespace DAO;
 
+use Application\Helpers\Response;
 use DAO\Database\Exceptions\InvalidIdOnTryDelete;
 use http\Exception\InvalidArgumentException;
 use PDO;
@@ -88,7 +89,7 @@ class Database
         }
 
         $dbst = $this->db->prepare(" SELECT {$fields} FROM " . static::TABLE . " WHERE {$where} {$order} ");
-
+dd($dbst->queryString);
         if (is_array($whereValues) && !empty($whereValues)) {
 
             foreach ($whereValues as $param => $value) {
@@ -103,7 +104,7 @@ class Database
         return $this->execute($dbst);
     }
 
-    public function getAll($limit = null)
+    public function getAll($limit = null, $fields = null)
     {
         if (!empty($limit)) {
             $limit = ' LIMIT ' . (int)$limit;
@@ -121,7 +122,7 @@ class Database
             $order = ' ORDER BY ' . implode(',', $ords);
         }
 
-        $fields = $this->prepareFields();
+        $fields = $this->prepareFields($fields);
 
         return $this->execute($this->db->prepare(" SELECT $fields FROM " . static::TABLE . " {$order} {$limit} "));
     }
@@ -210,13 +211,15 @@ class Database
             throw new InvalidArgumentException('Parameters cannot be empty on update.');
         }
 
-        $query = 'UPDATE area SET ';
+        $query = 'UPDATE ' . static::TABLE . ' SET ';
 
         foreach ($parameters as $key => $value) {
-            $query .= "$key = ? ";
+            $query .= "$key = ?,";
         }
 
-        if ($pdoInstance = $this->db->prepare("$query WHERE id = ?")) {
+        $query = substr($query, 0, -1);
+
+        if ($pdoInstance = $this->db->prepare("$query WHERE " . static::TABLE . '.id = ?')) {
             return $pdoInstance->execute(array_merge(array_values($parameters), [$id]));
         }
 

@@ -37,13 +37,16 @@ $melhorias = AgendaService::mountMelhorias();
 <section id="agenda_section">
     <nav class="table-header-index">
         <h1>Index de Áreas</h1>
-        <a class="btn btn-primary px-3" href="?path=areas/criar">Criar Novo</a>
+        <div>
+            <a class="btn btn-secondary px-3" href="?path=inicio">Voltar</a>
+            <a class="btn btn-primary px-3" href="?path=areas/criar">Criar Nova</a>
+        </div>
     </nav>
     <div class="container-fluid">
         <table class="table tableFixHead main-table" id="main-table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col"><a href="?path=agenda">#Áreas</a></th>
+                <th scope="col"><a href="?path=agenda">Áreas</a></th>
                 <?php for ($i = $mInicial; $i <= $mFinal; $i++) { ?>
                     <th scope="col">
                         <a href="?path=agenda&meses=<?= $i; ?>">
@@ -67,30 +70,28 @@ $melhorias = AgendaService::mountMelhorias();
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <?php foreach ($urgenciasAll as $urgencia) : ?>
-                                        <?php $melhoriasEncontradas = !empty($melhorias[$area->id][$i][$urgencia->id]) ? $melhorias[$area->id][$i][$urgencia->id] : null; ?>
-                                        <?php if (!empty($melhoriasEncontradas)) : ?>
-                                            <?php foreach ($melhoriasEncontradas as $melhoria) : ?>
-                                                <td class="table-<?php echo $urgencia->id == 5 ? 'primary' : ($urgencia->id == 4 ? 'danger' : 'warning'); ?>">
-                                                    <div class="wrapper-melhoria"
-                                                         id="wrapper_melhoria_<?php echo "{$area->id}_{$i}_{$melhoria->id}" ?>">
-                                                        <div class="card" style="width: 18rem;">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title"><?= $melhoria->tarefa; ?></h5>
-                                                                <p class="card-text"><?php echo $melhoria->descricao ?></p>
-                                                                <button class="btn btn-primary modal-melhoria"
-                                                                        type="button" data-bs-toggle="modal"
-                                                                        data-bs-target="#melhoria_<?php echo $melhoria->id ?>">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
+                                    <?php $melhoriasEncontradas = !empty($melhorias[$area->id][$i]) ? $melhorias[$area->id][$i] : null; ?>
+                                    <?php if (!empty($melhoriasEncontradas)) : ?>
+                                        <?php foreach ($melhoriasEncontradas as $melhoria) : ?>
+                                            <td class="table-<?php echo $melhoria->urgencia == 5 ? 'danger' : (($melhoria->urgencia == 4 || $melhoria->urgencia == 3) ? 'primary' : 'warning'); ?>">
+                                                <div class="wrapper-melhoria"
+                                                     id="wrapper_melhoria_<?php echo "{$area->id}_{$i}_{$melhoria->id}" ?>">
+                                                    <div class="card" style="width: 18rem;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title"><?= $melhoria->tarefa; ?></h5>
+                                                            <p class="card-text"><?php echo $melhoria->descricao ?></p>
+                                                            <button class="btn btn-primary modal-melhoria"
+                                                                    type="button" data-bs-toggle="modal"
+                                                                    data-bs-target="#melhoria_<?php echo $melhoria->id ?>">
+                                                                <i class='bx bx-show'></i>
+                                                            </button>
                                                         </div>
-                                                        <?php include __DIR__ . '/components/modal.php' ?>
                                                     </div>
-                                                </td>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
+                                                    <?php include __DIR__ . '/components/modal.php' ?>
+                                                </div>
+                                            </td>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tr>
                                 </tbody>
                             </table>
@@ -98,17 +99,20 @@ $melhorias = AgendaService::mountMelhorias();
                     <?php endfor; ?>
                     <td class="d-flex justify-content-center align-items-center gap-2 <?= $area->melhorias === 0 ? 'empty' : 'non-empty'; ?>">
                         <?php if ($area->melhorias === 0) { ?>
-                            <a class="btn btn-primary px-3 d-flex justify-content-center align-items-center" style="width: 60px; padding: 10px 0"
+                            <a class="btn btn-primary px-3 d-flex justify-content-center align-items-center"
+                               style="width: 60px; padding: 10px 0"
                                href="?path=areas/editar&area=<?= $area->id; ?>">
                                 <i class='bx bxs-edit-alt h5' style="padding: 0;margin: 0"></i>
                             </a>
-                            <button class="btn btn-danger px-3 area-delete d-flex justify-content-center align-items-center" style="width: 60px; padding: 10px 0"
+                            <button class="btn btn-danger px-3 area-delete d-flex justify-content-center align-items-center"
+                                    style="width: 60px; padding: 10px 0"
                                     data-area="<?= $area->id ?>">
                                 <i class='bx bxs-trash h5' style="padding: 0;margin: 0"></i>
                             </button>
                         <?php } ?>
-                        <a class="btn btn-warning px-3 d-flex justify-content-center align-items-center" style="width: 60px; padding: 10px 0"
-                           href="?path=areas/editar&area=<?= $area->id; ?>">
+                        <a class="btn btn-warning px-3 d-flex justify-content-center align-items-center"
+                           style="width: 60px; padding: 10px 0"
+                           href="?path=melhorias/anexar&area=<?= $area->id; ?>">
                             <i class='bx bx-paperclip h5' style="padding: 0;margin: 0"></i>
                         </a>
                     </td>
