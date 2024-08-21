@@ -93,8 +93,10 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Editar</button>
-                <button type="button" class="btn btn-danger melhoria-delete-button" data-melhoria="<?= $melhoria->id; ?>">Deletar</button>
+                <a href="?path=melhorias/editar&melhoria=<?= $melhoria->id; ?>" type="button" class="btn btn-primary">Editar</a>
+                <button type="button" class="btn btn-danger melhoria-delete-button"
+                        data-melhoria="<?= $melhoria->id; ?>">Deletar
+                </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

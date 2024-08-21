@@ -24,4 +24,6 @@ if (Area::getInstance()->deleteById($area)) {
     Response::success('Área deletada com sucesso!');
 }
 
+error_log('Fail on try delete area, ' . json_encode(['area_id' => $area]));
+
 Response::fail('Erro interno ao deletar área', [], 500);

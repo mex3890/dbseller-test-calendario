@@ -20,14 +20,6 @@ if (empty($area = $_POST['area'])) {
     ]);
 }
 
-if (Str::hasSpecialCharacter($description)) {
-    Response::fail('Erro de validação.', [
-        'errors' => [
-            'descricao' => 'A descrição não pode ter caracteres especiais.'
-        ]
-    ]);
-}
-
 if (!empty($searchArea = Area::getInstance()->filtrarPorDescricao($description))) {
     if (!is_array($searchArea)) {
         $searchArea = [$searchArea->id];
@@ -45,5 +37,7 @@ if (!empty($searchArea = Area::getInstance()->filtrarPorDescricao($description))
 if (Area::getInstance()->updateById($area, ['descricao' => $description])) {
     Response::success('Área atualizada com sucesso!');
 }
+
+error_log('Fail on try update area, ' . json_encode(['description' => $description, 'area_id' => $area]));
 
 Response::fail('Erro interno ao criar área.', [], 500);
