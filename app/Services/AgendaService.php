@@ -14,7 +14,7 @@ class AgendaService
             ->order('prazo_acordado')
             ->order('gut', 'desc')
             ->order('id')
-            ->filtrarPorUrgencia([0, 1, 2, 3, 4, 5], ['*', '(coalesce(gravidade, 1) * coalesce(urgencia, 1) * coalesce(tendencia, 1)) as gut']);
+            ->getAll(null, ['*', '(coalesce(gravidade, 1) * coalesce(urgencia, 1) * coalesce(tendencia, 1)) as gut']);
 
         $melhorias = [];
 

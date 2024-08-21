@@ -37,13 +37,16 @@ $melhorias = AgendaService::mountMelhorias();
 <section id="agenda_section">
     <nav class="table-header-index">
         <h1>Index de Áreas</h1>
-        <a class="btn btn-primary px-3" href="?path=areas/criar">Criar Nova</a>
+        <div>
+            <a class="btn btn-secondary px-3" href="?path=inicio">Voltar</a>
+            <a class="btn btn-primary px-3" href="?path=areas/criar">Criar Nova</a>
+        </div>
     </nav>
     <div class="container-fluid">
         <table class="table tableFixHead main-table" id="main-table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col"><a href="?path=agenda">#Áreas</a></th>
+                <th scope="col"><a href="?path=agenda">Áreas</a></th>
                 <?php for ($i = $mInicial; $i <= $mFinal; $i++) { ?>
                     <th scope="col">
                         <a href="?path=agenda&meses=<?= $i; ?>">
@@ -70,7 +73,7 @@ $melhorias = AgendaService::mountMelhorias();
                                     <?php $melhoriasEncontradas = !empty($melhorias[$area->id][$i]) ? $melhorias[$area->id][$i] : null; ?>
                                     <?php if (!empty($melhoriasEncontradas)) : ?>
                                         <?php foreach ($melhoriasEncontradas as $melhoria) : ?>
-                                            <td class="table-<?php echo $melhoria->urgencia == 5 ? 'primary' : ($melhoria->urgencia == 4 ? 'danger' : 'warning'); ?>">
+                                            <td class="table-<?php echo $melhoria->urgencia == 5 ? 'danger' : (($melhoria->urgencia == 4 || $melhoria->urgencia == 3) ? 'primary' : 'warning'); ?>">
                                                 <div class="wrapper-melhoria"
                                                      id="wrapper_melhoria_<?php echo "{$area->id}_{$i}_{$melhoria->id}" ?>">
                                                     <div class="card" style="width: 18rem;">

@@ -187,3 +187,16 @@ section > .table-header-index {
     padding-bottom: 10px!important;
     margin-bottom: 40px;
 }
+
+#filter_section > div {
+    overflow: unset;
+    width: 100%;
+    border: none;
+    height: unset;
+    max-width: 100%;
+}
+
+#filter_section > h1 {
+    border-bottom: 5px solid rgba(0, 0, 0, 0.29);
+    padding-bottom: 10px;
+}
